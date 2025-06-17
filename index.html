@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Your Name</h1>
+                <p class="tagline">Writer • Thinker • Creator</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <ul class="nav-tabs">
+                <li class="nav-item active" data-tab="about">
+                    <i class="fas fa-user"></i>
+                    <span>About Me</span>
+                </li>
+                <li class="nav-item" data-tab="blogs">
+                    <i class="fas fa-blog"></i>
+                    <span>Thoughts</span>
+                </li>
+                <li class="nav-item" data-tab="ideas">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Ideas</span>
+                </li>
+                <li class="nav-item" data-tab="projects">
+                    <i class="fas fa-heart"></i>
+                    <span>Projects</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- About Me Tab -->
+            <section id="about" class="tab-content active">
+                <div class="content-wrapper">
+                    <h2>About Me</h2>
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <p>Hello! I'm a curious soul who loves to explore ideas, write about life, and create things that bring joy to others. I believe in the power of thoughtful reflection and meaningful connections.</p>
+                            <p>When I'm not writing or thinking, you can find me reading a good book, taking long walks, or having deep conversations with friends over coffee.</p>
+                            <div class="skills">
+                                <h3>Interests & Passions</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Writing</span>
+                                    <span class="skill-tag">Reading</span>
+                                    <span class="skill-tag">Photography</span>
+                                    <span class="skill-tag">Cooking</span>
+                                    <span class="skill-tag">Travel</span>
+                                    <span class="skill-tag">Art</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-image">
+                            <div class="profile-placeholder">
+                                <i class="fas fa-user-circle"></i>
+                                <p>Your Photo Here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blogs Tab -->
+            <section id="blogs" class="tab-content">
+                <div class="content-wrapper">
+                    <h2>Blog Posts</h2>
+                    <div class="blog-grid">
+                        <!-- Blog posts will be dynamically loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Random Ideas Tab -->
+            <section id="ideas" class="tab-content">
+                <div class="content-wrapper">
+                    <h2>Ideas</h2>
+                    <div class="ideas-list">
+                        <div class="idea-item">
+                            <h3>Community Book Club</h3>
+                            <p>A monthly gathering where people share their favorite books and discuss the stories that moved them, creating meaningful connections through literature.</p>
+                        </div>
+                        <div class="idea-item">
+                            <h3>Urban Garden Network</h3>
+                            <p>Connecting city dwellers who want to grow their own food, sharing tips, seeds, and the joy of watching something grow from nothing.</p>
+                        </div>
+                        <div class="idea-item">
+                            <h3>Creative Expression Workshops</h3>
+                            <p>Weekly sessions where people can explore different forms of creative expression - painting, writing, music, or whatever speaks to their soul.</p>
+                        </div>
+                        <div class="idea-item">
+                            <h3>Skill Exchange Platform</h3>
+                            <p>A platform where people can teach and learn skills from each other - from cooking to language learning to DIY projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Tab -->
+            <section id="projects" class="tab-content">
+                <div class="content-wrapper">
+                    <h2>Projects</h2>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Personal Journal Collection</h3>
+                                <p>A collection of personal reflections and observations about life, relationships, and the human experience. Each entry captures moments of insight and growth.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Writing</span>
+                                    <span class="tech-tag">Reflection</span>
+                                    <span class="tech-tag">Personal Growth</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-eye"></i> View</a>
+                                    <a href="#" class="project-link"><i class="fas fa-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Photo Story Series</h3>
+                                <p>A visual storytelling project that combines photography with written narratives, capturing the beauty of everyday moments and the stories behind them.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Photography</span>
+                                    <span class="tech-tag">Storytelling</span>
+                                    <span class="tech-tag">Visual Art</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-eye"></i> View</a>
+                                    <a href="#" class="project-link"><i class="fas fa-share"></i> Share</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Recipe Collection</h3>
+                                <p>A curated collection of family recipes, cooking experiments, and food memories. Each recipe comes with a story about where it came from and what makes it special.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Cooking</span>
+                                    <span class="tech-tag">Family</span>
+                                    <span class="tech-tag">Memories</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-eye"></i> View</a>
+                                    <a href="#" class="project-link"><i class="fas fa-print"></i> Print</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="social-link"><i class="fas fa-heart"></i></a>
+                </div>
+                <p>&copy; 2024 Your Name. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="blog-posts.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
