@@ -1,150 +1,114 @@
-// Tab switching functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const tabContents = document.querySelectorAll('.tab-content');
+// ═══════════════════════════════════════════════════════
+//  Main Script — Tab switching & content rendering
+// ═══════════════════════════════════════════════════════
 
-    // Add click event listeners to navigation items
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all nav items and tab contents
-            navItems.forEach(nav => nav.classList.remove('active'));
-            tabContents.forEach(tab => tab.classList.remove('active'));
-            
-            // Add active class to clicked nav item and corresponding tab content
-            this.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
+document.addEventListener('DOMContentLoaded', () => {
+    initTabs();
+    renderProjects();
+    renderThoughts();
+    renderIdeas();
+    handleDeepLinks();
+});
+
+// ─── Tab Switching ───
+function initTabs() {
+    const btns   = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+
+            btns.forEach(b => b.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+
+            // Update URL hash so tabs are shareable / bookmarkable
+            history.replaceState(null, '', `#${tab}`);
         });
     });
+}
 
-    // Add smooth scrolling for better UX
-    const smoothScroll = (target) => {
-        const element = document.querySelector(target);
-        if (element) {
-            element.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    };
+// Open tab from URL hash (e.g. index.html#thoughts)
+function handleDeepLinks() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+        const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+        if (btn) btn.click();
+    }
+}
 
-    // Add hover effects for cards
-    const cards = document.querySelectorAll('.blog-card, .idea-card, .project-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
+// ─── Render Projects ───
+function renderProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid || typeof projects === 'undefined') return;
 
-    // Add typing effect to the tagline (optional)
-    const tagline = document.querySelector('.tagline');
-    if (tagline) {
-        const originalText = tagline.textContent;
-        tagline.textContent = '';
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < originalText.length) {
-                tagline.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        }
-        
-        // Start typing effect after a short delay
-        setTimeout(typeWriter, 1000);
+    if (projects.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>Projects coming soon.</p></div>';
+        return;
     }
 
-    // Add scroll reveal animation for content
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    grid.innerHTML = projects.map(p => `
+        <div class="project-card">
+            <h3>${p.links && p.links.length ? `<a href="${p.links[0].url}" target="_blank" rel="noopener">${p.title}</a>` : p.title}</h3>
+            <p class="desc">${p.description}</p>
+            <div class="meta">
+                ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            ${p.links && p.links.length ? `
+                <div class="links">
+                    ${p.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${l.label} →</a>`).join('')}
+                </div>
+            ` : ''}
+        </div>
+    `).join('');
+}
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
+// ─── Render Thoughts (Blog list) ───
+function renderThoughts() {
+    const list = document.getElementById('thoughts-list');
+    if (!list || typeof thoughts === 'undefined') return;
 
-    // Observe all content sections
-    const contentSections = document.querySelectorAll('.content-wrapper > *');
-    contentSections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(section);
-    });
-
-    // Add active state management for better UX
-    let currentTab = 'about';
-    
-    function updateActiveTab(tabName) {
-        currentTab = tabName;
-        localStorage.setItem('activeTab', tabName);
+    if (thoughts.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>No thoughts yet. Check back soon.</p></div>';
+        return;
     }
 
-    // Restore active tab from localStorage if available
-    const savedTab = localStorage.getItem('activeTab');
-    if (savedTab && document.getElementById(savedTab)) {
-        navItems.forEach(nav => nav.classList.remove('active'));
-        tabContents.forEach(tab => tab.classList.remove('active'));
-        
-        document.querySelector(`[data-tab="${savedTab}"]`).classList.add('active');
-        document.getElementById(savedTab).classList.add('active');
-        currentTab = savedTab;
+    list.innerHTML = thoughts.map(t => `
+        <a href="thought.html?id=${t.id}" class="thought-item">
+            ${t.coverImage ? `<img class="thought-cover" src="${t.coverImage}" alt="${t.title}">` : ''}
+            <h3>${t.title}</h3>
+            <p class="excerpt">${t.excerpt}</p>
+            <div class="thought-meta">
+                <span>${formatDate(t.date)}</span>
+                ${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+        </a>
+    `).join('');
+}
+
+// ─── Render Ideas ───
+function renderIdeas() {
+    const list = document.getElementById('ideas-list');
+    if (!list || typeof ideas === 'undefined') return;
+
+    if (ideas.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>No ideas yet. The spark will come.</p></div>';
+        return;
     }
 
-    // Enhanced click handler with active state management
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            updateActiveTab(targetTab);
-            
-            // Remove active class from all nav items and tab contents
-            navItems.forEach(nav => nav.classList.remove('active'));
-            tabContents.forEach(tab => tab.classList.remove('active'));
-            
-            // Add active class to clicked nav item and corresponding tab content
-            this.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
-        });
-    });
+    list.innerHTML = ideas.map(i => `
+        <div class="idea-item">
+            <p class="idea-title">${i.title}</p>
+            ${i.description ? `<p class="idea-desc">${i.description}</p>` : ''}
+        </div>
+    `).join('');
+}
 
-    // Add keyboard navigation support
-    document.addEventListener('keydown', function(e) {
-        const currentIndex = Array.from(navItems).findIndex(item => 
-            item.classList.contains('active')
-        );
-        
-        let newIndex = currentIndex;
-        
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-            newIndex = (currentIndex + 1) % navItems.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-            newIndex = currentIndex === 0 ? navItems.length - 1 : currentIndex - 1;
-        }
-        
-        if (newIndex !== currentIndex) {
-            navItems[newIndex].click();
-        }
-    });
-
-    // Add loading animation
-    window.addEventListener('load', function() {
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 0.5s ease';
-        
-        setTimeout(() => {
-            document.body.style.opacity = '1';
-        }, 100);
-    });
-}); 
+// ─── Helpers ───
+function formatDate(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
